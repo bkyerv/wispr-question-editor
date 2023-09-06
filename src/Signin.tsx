@@ -4,48 +4,46 @@ import { Navigate } from "react-router-dom";
 import { url } from "./utils/url";
 
 export default function SignIn() {
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  // const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  const checkIsSignedIn = useCallback(async function () {
-    const sessionId = document?.cookie
-      ?.split("; ")
-      ?.find((row) => row.startsWith("sessionId"))
-      ?.split("=")[1];
+  // const checkIsSignedIn = useCallback(async function () {
+  //   const sessionId = document?.cookie
+  //     ?.split("; ")
+  //     ?.find((row) => row.startsWith("sessionId"))
+  //     ?.split("=")[1];
 
-    console.log(sessionId);
+  //   if (!sessionId) {
+  //     console.log("no session anyway");
+  //     setIsLoading(false);
+  //     return;
+  //   }
+  //   const res = await fetch(url + "/auth/validate-session", {
+  //     credentials: "include",
+  //   });
+  //   try {
+  //     if (res.ok) {
+  //       setIsSignedIn(true);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   const sessionId = document?.cookie
+  //     ?.split("; ")
+  //     ?.find((row) => row.startsWith("sessionId"))
+  //     ?.split("=")[1];
 
-    // if (!sessionId) {
-    //   console.log("no session anyway");
-    //   setIsLoading(false);
-    //   return;
-    // }
-    const res = await fetch(url + "/auth/validate-session", {
-      credentials: "include",
-    });
-    try {
-      if (res.ok) {
-        setIsSignedIn(true);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-  useEffect(() => {
-    const sessionId = document?.cookie
-      ?.split("; ")
-      ?.find((row) => row.startsWith("sessionId"))
-      ?.split("=")[1];
-
-    if (!sessionId) {
-      console.log("no session anyway");
-      setIsLoading(false);
-      return;
-    }
-    checkIsSignedIn();
-  }, [checkIsSignedIn]);
+  //   if (!sessionId) {
+  //     console.log("no session anyway");
+  //     setIsLoading(false);
+  //     return;
+  //   }
+  //   checkIsSignedIn();
+  // }, [checkIsSignedIn]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -64,19 +62,12 @@ export default function SignIn() {
       })
     )
       .json()
-      .then(async (data) => {
-        if (data && data.status === "ok") {
-          await checkIsSignedIn();
-        }
-      })
       .catch((e) => console.error(e))
       .finally(() => setIsLoading(false));
   }
 
   return isLoading ? (
     <div>...loading</div>
-  ) : isSignedIn ? (
-    <Navigate to="/diagnostic-area" />
   ) : (
     <div>
       {

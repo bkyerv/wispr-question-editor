@@ -8,16 +8,6 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(true);
 
   const checkIsSignedIn = useCallback(async function () {
-    const sessionId = document?.cookie
-      ?.split("; ")
-      ?.find((row) => row.startsWith("sessionId"))
-      ?.split("=")[1];
-
-    if (!sessionId) {
-      console.log("no session anyway");
-      setIsLoading(false);
-      return;
-    }
     const res = await fetch(url + "/auth/validate-session", {
       credentials: "include",
     });
@@ -32,6 +22,16 @@ export default function SignIn() {
     }
   }, []);
   useEffect(() => {
+    const sessionId = document?.cookie
+      ?.split("; ")
+      ?.find((row) => row.startsWith("sessionId"))
+      ?.split("=")[1];
+
+    if (!sessionId) {
+      console.log("no session anyway");
+      setIsLoading(false);
+      return;
+    }
     checkIsSignedIn();
   }, [checkIsSignedIn]);
 

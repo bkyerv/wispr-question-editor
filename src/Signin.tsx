@@ -4,46 +4,7 @@ import { Navigate } from "react-router-dom";
 import { url } from "./utils/url";
 
 export default function SignIn() {
-  // const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  // const checkIsSignedIn = useCallback(async function () {
-  //   const sessionId = document?.cookie
-  //     ?.split("; ")
-  //     ?.find((row) => row.startsWith("sessionId"))
-  //     ?.split("=")[1];
-
-  //   if (!sessionId) {
-  //     console.log("no session anyway");
-  //     setIsLoading(false);
-  //     return;
-  //   }
-  //   const res = await fetch(url + "/auth/validate-session", {
-  //     credentials: "include",
-  //   });
-  //   try {
-  //     if (res.ok) {
-  //       setIsSignedIn(true);
-  //     }
-  //   } catch (e) {
-  //     console.error(e);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const sessionId = document?.cookie
-  //     ?.split("; ")
-  //     ?.find((row) => row.startsWith("sessionId"))
-  //     ?.split("=")[1];
-
-  //   if (!sessionId) {
-  //     console.log("no session anyway");
-  //     setIsLoading(false);
-  //     return;
-  //   }
-  //   checkIsSignedIn();
-  // }, [checkIsSignedIn]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -51,17 +12,14 @@ export default function SignIn() {
     const formData = new FormData(e.currentTarget);
     const { email, password } = Object.fromEntries(formData);
 
-    await (
-      await fetch(url + "/signin", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      })
-    )
-      .json()
+    await fetch(url + "/signin", {
+      method: "POST",
+      body: JSON.stringify({ email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
       .catch((e) => console.error(e))
       .finally(() => setIsLoading(false));
   }

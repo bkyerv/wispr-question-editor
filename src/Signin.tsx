@@ -13,11 +13,13 @@ export default function SignIn() {
       ?.find((row) => row.startsWith("sessionId"))
       ?.split("=")[1];
 
-    if (!sessionId) {
-      console.log("no session anyway");
-      setIsLoading(false);
-      return;
-    }
+    console.log(sessionId);
+
+    // if (!sessionId) {
+    //   console.log("no session anyway");
+    //   setIsLoading(false);
+    //   return;
+    // }
     const res = await fetch(url + "/auth/validate-session", {
       credentials: "include",
     });

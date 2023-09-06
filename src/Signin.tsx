@@ -5,7 +5,7 @@ import { url } from "./utils/url";
 
 export default function SignIn() {
   // const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // const checkIsSignedIn = useCallback(async function () {
   //   const sessionId = document?.cookie

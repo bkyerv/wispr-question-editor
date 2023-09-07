@@ -14,6 +14,17 @@ export default function Protected() {
     setIsLoading(false);
   }
 
+  async function checkSession() {
+    setIsLoading(true);
+
+    await fetch(url + "/check-session", {
+      method: "GET",
+      credentials: "include",
+    });
+
+    setIsLoading(false);
+  }
+
   if (isLoading) {
     return <div>...loading</div>;
   }
@@ -21,6 +32,9 @@ export default function Protected() {
     <div>
       <div>
         <button onClick={() => handleSignout()}>sign out</button>
+      </div>
+      <div>
+        <button onClick={() => checkSession()}>check session</button>
       </div>
       <h2 className="text-xl">Protected Route</h2>
     </div>

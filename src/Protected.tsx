@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { url } from "./utils/url";
 
 export default function Protected() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignout() {
     setIsLoading(true);

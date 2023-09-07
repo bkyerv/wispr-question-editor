@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { url } from "./utils/url";
 
 export default function Protected() {
   const [isLoading, setIsLoading] = useState(true);
@@ -16,11 +17,21 @@ export default function Protected() {
     setIsLoading(false);
   });
 
+  async function handleSignout() {
+    setIsLoading(true);
+    await fetch(url + "/signout", {
+      method: "POST",
+    });
+  }
+
   if (isLoading) {
     return <div>...loading</div>;
   }
   return (
     <div>
+      <div>
+        <button onClick={() => handleSignout()}>sign out</button>
+      </div>
       <h2 className="text-xl">Protected Route</h2>
       {isAuthenticated ? (
         <div>You are authenticated</div>

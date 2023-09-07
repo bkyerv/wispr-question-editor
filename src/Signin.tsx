@@ -5,19 +5,6 @@ import { url } from "./utils/url";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const cookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("sessionId="))
-      ?.split("=")[1];
-    console.log("cookievalue", cookieValue);
-
-    if (cookieValue) {
-      setIsAuthenticated(true);
-    }
-  }, []);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -34,10 +21,6 @@ export default function SignIn() {
       credentials: "include",
     }).catch((e) => console.error(e));
     setIsLoading(false);
-  }
-
-  if (isAuthenticated) {
-    return <Navigate to="/protected" />;
   }
 
   return isLoading ? (

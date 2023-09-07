@@ -21,6 +21,7 @@ export default function Protected() {
     setIsLoading(true);
     await fetch(url + "/signout", {
       method: "POST",
+      credentials: "include",
     });
   }
 

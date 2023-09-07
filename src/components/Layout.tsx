@@ -9,7 +9,7 @@ export default function Layout() {
   return (
     <div className="max-w-sm mx-auto h-screen px-2 mt-8">
       <div className="mb-8 flex gap-4">
-        <Link to="/signin">Sign in</Link>
+        <Link to="/">Sign in</Link>
         <Link to="/protected">Protected</Link>
       </div>
       <Outlet />

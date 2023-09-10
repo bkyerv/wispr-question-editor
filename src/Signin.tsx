@@ -36,7 +36,7 @@ export default function SignIn() {
               type="email"
               name="email"
               className="border rounded p-1"
-              // required
+              required
             />
           </div>
           <div className="flex flex-col">
@@ -46,7 +46,7 @@ export default function SignIn() {
               name="password"
               autoComplete="current-password"
               className="border rounded p-1"
-              // required
+              required
             />
           </div>
           <div className="text-right">

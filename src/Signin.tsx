@@ -1,10 +1,13 @@
 import { FormEvent, useEffect, useState } from "react";
 import { DotSpinner } from "./components/Icons";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { url } from "./utils/url";
+import { useAuth } from "./components/Layout";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useAuth();
+  const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -12,15 +15,24 @@ export default function SignIn() {
     const formData = new FormData(e.currentTarget);
     const { email, password } = Object.fromEntries(formData);
 
-    await fetch(url + "/signin", {
+    fetch(url + "/signin", {
       method: "POST",
       body: JSON.stringify({ email, password }),
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
-    }).catch((e) => console.error(e));
-    setIsLoading(false);
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        setIsAuthenticated(true);
+        setIsLoading(false);
+        return navigate("/protected");
+      })
+      .catch((e) => console.error(e))
+      .finally(() => setIsLoading(false));
   }
 
   return isLoading ? (

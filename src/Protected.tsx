@@ -18,6 +18,7 @@ export default function Protected() {
 
     try {
       await fetch(`${url}/signout`, {
+        method: "POST",
         credentials: "include",
       })
         .then((res) => res.json())

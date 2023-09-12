@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 
 export type OutletContext = [
   isAuthenticated: boolean,
-  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>,
+  authStatus: "unknown" | "authenticated" | "unauthenticated"
 ];
 
 export function useAuth() {
@@ -13,6 +14,7 @@ export function useAuth() {
 export default function Layout() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authStatus, setAuthStatus] = useState("unknown");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,8 +35,9 @@ export default function Layout() {
         const { status, message } = await res.json();
         if (status === "ok") {
           setIsAuthenticated(true);
+          setAuthStatus("authenticated");
         } else {
-          setIsAuthenticated(false);
+          setAuthStatus("unauthenticated");
         }
       } catch (e) {
         console.error(e);
@@ -51,10 +54,13 @@ export default function Layout() {
       ) : (
         <>
           <div className="mb-8 flex gap-4">
-            <Link to="/">Sign in</Link>
-            <Link to="/protected">Protected</Link>
+            {isAuthenticated ? (
+              <Link to="/protected">Protected</Link>
+            ) : (
+              <Link to="/">Sign in</Link>
+            )}
           </div>
-          <Outlet context={[isAuthenticated, setIsAuthenticated]} />
+          <Outlet context={[isAuthenticated, setIsAuthenticated, authStatus]} />
         </>
       )}
     </div>

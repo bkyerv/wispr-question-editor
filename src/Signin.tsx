@@ -1,12 +1,12 @@
 import { FormEvent, useEffect, useState } from "react";
-import { DotSpinner } from "./components/Icons";
+import { DotSpinner, Spinner } from "./components/Icons";
 import { useNavigate } from "react-router-dom";
 import { url } from "./utils/url";
 import { useAuth } from "./components/Layout";
 
 export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useAuth();
+  const [_, setIsAuthenticated, authStatus] = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -35,40 +35,36 @@ export default function SignIn() {
       .finally(() => setIsLoading(false));
   }
 
-  return isLoading ? (
-    <div>...loading</div>
-  ) : (
-    <div>
-      {
-        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-          <div className="flex flex-col">
-            <label>Email</label>
-            <input
-              autoComplete="email"
-              type="email"
-              name="email"
-              className="border rounded p-1"
-              required
-            />
-          </div>
-          <div className="flex flex-col">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              autoComplete="current-password"
-              className="border rounded p-1"
-              required
-            />
-          </div>
-          <div className="text-right">
-            <button className="px-2 py-1 border rounded flex gap-2 items-center">
-              <span>Войти</span>
-              {isLoading && <DotSpinner />}
-            </button>
-          </div>
-        </form>
-      }
-    </div>
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <div className="flex flex-col">
+        <label>Email</label>
+        <input
+          autoComplete="email"
+          type="email"
+          name="email"
+          className="border rounded p-1"
+          required
+        />
+      </div>
+      <div className="flex flex-col">
+        <label>Password</label>
+        <input
+          type="password"
+          name="password"
+          autoComplete="current-password"
+          className="border rounded p-1"
+          required
+        />
+      </div>
+      <div className="text-right">
+        <button className="px-2 py-1 border rounded flex gap-2 items-center">
+          <span className="flex gap-2 items-center">
+            {" "}
+            Войти {isLoading && <Spinner />}
+          </span>
+        </button>
+      </div>
+    </form>
   );
 }
